@@ -41,4 +41,32 @@ Output:
 Use verify [file] to test your solution and see how it does. When you are finished editing your code, use submit [file] to submit your answer. If your solution passes the test cases, it will be removed from your home folder.
 """
 
-a = '1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'
+import math
+
+def isInLargerHalf(value):
+    n = int(math.floor(math.log(value, 2)))
+    if value == 2**n:
+        return True
+    
+    half = ( 2**(n+1) + 2**n )/2
+    if value > half:
+        return False
+    else:
+        return True
+
+def answer(n):
+    # your code here
+    current = long(n)
+    isLargerHalf = isInLargerHalf(current)
+    operations = 0
+    while current != 1:
+        operations += 1
+        if current%2 == 0:
+            current = current / 2
+            continue
+        if isLargerHalf:
+            current += 1
+        else:
+            current -= 1
+    
+    return operations
