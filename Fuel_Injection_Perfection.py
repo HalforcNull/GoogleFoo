@@ -40,7 +40,7 @@ Output:
 
 Use verify [file] to test your solution and see how it does. When you are finished editing your code, use submit [file] to submit your answer. If your solution passes the test cases, it will be removed from your home folder.
 """
-
+"""
 import math
 
 def isInLargerHalf(value):
@@ -49,24 +49,45 @@ def isInLargerHalf(value):
         return True
     
     half = ( 2**(n+1) + 2**n )/2
-    if value > half:
+    if value >= half:
         return False
     else:
         return True
+"""
+def cutHalf(n):
+    steps = 0
+    remain = n
+    while remain%2 == 0:
+        remain = remain/2
+        steps += 1
+    return [steps, remain]
 
 def answer(n):
     # your code here
     current = long(n)
-    isLargerHalf = isInLargerHalf(current)
-    operations = 0
-    while current != 1:
-        operations += 1
-        if current%2 == 0:
-            current = current / 2
-            continue
-        if isLargerHalf:
-            current += 1
-        else:
-            current -= 1
+    if current == 0:
+        return 0
+    #isLargerHalf = isInLargerHalf(current)
+    initCut = cutHalf(current)
+    stepCounter = initCut[0]
+    current = initCut[1]
     
-    return operations
+    while current != 1:
+        if current == 3:
+            stepCounter += 2
+            break
+        
+        cutResultAdd = cutHalf(current+1)
+        cutResultDeduct = cutHalf(current-1)
+        
+        stepCounter += 1
+        
+        if cutResultAdd[0] > cutResultDeduct[0]:
+            current  = cutResultAdd[1]
+            stepCounter += cutResultAdd[0]
+        else:
+            current = cutResultDeduct[1]
+            stepCounter += cutResultDeduct[0]
+    
+    return stepCounter
+            
